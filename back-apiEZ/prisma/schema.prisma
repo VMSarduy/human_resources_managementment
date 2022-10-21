@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int        @id @default(autoincrement())
+  email   String     @unique
+  nombre             String
+  apellido           String
+  numero_trab        Int      @unique
+  numero_ci          String   @unique 
+  edad               DateTime @default(now())      
+  grupo_area         String?
+  area               String
+  raza               String
+  sexo               String
+  talla              Talla?
+  cargo              String
+  nive_escolar       String
+  especialidad       String?
+  estud_actual       Estud_actual?
+  baja               Baja?
+  direccion          String?
+  telefono           String?
+  cat_ocupa          String
+  fecha_entrada      DateTime @default(now())
+  fecha_baja         DateTime?
+  reg_milit          Reg_milit?
+  juvilado           Boolean  @default(false)
+  cat_docent         Float?
+  hora_irreg         Float?
+  certificacion      Float?
+  maestria           Float?
+  dortorado          Float?
+  grupo_escala       String
+  escala             Float
+  isadmin            Boolean  @default(false)
+}
+
+model Baja {
+  id                 Int        @id @default(autoincrement())
+  anno               DateTime   @default(now())
+  descrip            String?
+  user               User       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId             Int    
+}
+
+model Talla {
+  id                 Int        @id @default(autoincrement())
+  calsado            Float
+  ropa               String
+  oder               String?
+  user               User       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId             Int    
+}
+
+model Estud_actual {
+  id                 Int        @id @default(autoincrement())
+  lugar              String
+  anno               DateTime   @default(now())
+  descrip            String?
+  user               User       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId             Int       
+}
+
+model Reg_milit {
+  id                 Int        @id @default(autoincrement())
+  lugar              String
+  anno               DateTime   @default(now())
+  descrip            String?
+  user               User       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId             Int       
+}
